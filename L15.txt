@@ -1,0 +1,121 @@
+Лабораторная работа №15 Головачев
+1) #include <iostream>
+#include "module2.h"
+#include <stdio.h>
+#include <cstdio>
+
+using namespace std;
+
+int main()
+{
+
+    int kolvopredloj;
+    FILE *text;
+    text=fopen("text.txt","r+");
+    kolvopredloj=function_read_text(text);
+    fclose(text);
+
+}
+
+Модуль:
+
+#include <stdio.h>
+#include <cstdio>
+#include <iostream>
+#include <windows.h>
+using namespace std;
+int function_read_text(FILE *text)
+{
+    int kolvotochek=0,i=0;
+    char s[255],simbl;
+    while(feof(text)==0)
+    {
+        s[i]=fgetc(text);
+        if(s[i]=='.'||s[i]=='!'||s[i]=='?')
+        {
+            kolvotochek++;
+        }
+        i++;
+    }
+    s[i]='\0';
+    int len=strlen(s);
+    for(int j = len ;j >= 0 ;j--)
+    {
+        cout<<s[j];
+    }
+    char predloj=kolvotochek +'0' ;
+    fclose(text);
+    text=fopen("text.txt","w");
+    fputc(predloj,text);
+    i=0;
+    simbl=s[i];
+    while((simbl=s[i])!=EOF)
+    {
+        fputc(simbl,text);
+        i++;
+    }
+    fclose(text);
+    }
+Заголовочный файл:
+#ifndef MODULE2_H_INCLUDED
+#define MODULE2_H_INCLUDED
+
+int function_read_text(FILE *text);
+
+#endif // MODULE2_H_INCLUDED
+
+ 
+Задание 2.
+ 
+Основной файл.
+ 
+#include <iostream>
+#include "module.h"
+using namespace std;
+int main(int argc, char** argv)
+{
+    int length=atoi(argv[1]);
+    int *massive = new int[length];
+    cout<<massivefunc(length,massive);
+}
+
+
+
+
+Модуль.
+ 
+#include <cstdlib>
+#include <iostream>
+#include <stdio.h>
+#include <ctime>
+using namespace std;
+
+int massivefunc(int length,int* massive)
+{
+    int summ=0;
+    time_t t;
+    time(&t);
+    srand((unsigned int)t);
+    for(int i=0;i<length;i++)
+    {
+        massive[i]=-100+rand()%200;
+    }
+    for(int i=0;i<length;i++)
+    {
+        cout<<massive[i]<<endl;
+    }
+    for(int i=0;i<length;i++)
+    {
+        summ+=massive[i];
+    }
+    return summ;
+}
+Заголовочный файл.
+ 
+
+#ifndef MODULE_H_INCLUDED
+#define MODULE_H_INCLUDED
+
+int massivefunc(int length,int massive[]);
+
+#endif

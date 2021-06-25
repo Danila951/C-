@@ -1,0 +1,478 @@
+
+Постановка задачи
+Итак, вот мое задание:
+Создать файл, содержащий сведения о сдаче студентами сессии.
+Структура записи: индекс группы, фамилия студента, оценки по двум экзаменам и пяти зачетам.
+Написать программу, выдающую следующую информацию:
+- фамилии неуспевающих студентов с указанием индексов групп и количества задолженностей;
+- средний балл, полученный каждым студентом группы Х, и всей группы в целом.
+Значит моя структура будет:
+static struct cd
+{
+    char index;
+    char name[10];
+    int ekz1,ekz2,zach1,zach2,zach3,zach4,zach5;
+} sessiia[256];
+Структура статическая, потому что это позволяло задание, конечно динамическая структура была бы предпочтительнее, но у меня не вышло её настроить.
+Индекс группы – буква, по этому тип char.
+Фамилия студента – строка.
+Оценки за экзамены являются целочисленными данным от 2 до 5, значит int для них достаточно.
+Информация в моем файле храниться в достаточно странном виде(особенно цифры), но считываются программой в нормальный вид и выводятся красиво  
+
+
+
+Функциональные требования к программе
+Структура записи: индекс группы, фамилия студента, оценки по двум экзаменам и пяти зачетам.
+– Подпрограмма просмотра файла.
+– Подпрограмма добавления данных.
+– Подпрограмма редактирования данных.
+– Подпрограмма удаления данных.
+– Подпрограмма сортировки по алфавиту.
+– Подпрограмма вывода среднего балла каждого студенты группы Х и всей группы в целом.
+– Подпрограмма вывода отстающих студентов и количества долгов.
+
+
+Операции над данным, обозначенные *, это отдельные модули программы.
+
+
+Выбор программного обеспечения
+Работаю в CodeBlocks, он позволит мне сразу создавать модули и заголовочный файл (жаль, что не позволит использовать cin), а также в нем будет производиться компилирование.
+Разработка программного кода
+Основное тело:
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include <windows.h>
+#include "HEADERH.h"
+
+FILE *f;
+
+int main()
+{
+    int n;
+    while(n!=9)
+    {
+        puts("1. Vvod dannih");
+        puts("2. Vivod dannih");
+        puts("3. Vivod otstauchih");
+        puts("4. Vivod srednego balla opredelennoy gruppi");
+        puts("5. Sortirovat po alfavitu");
+        puts("6. Udalit studenta");
+        puts("7. Izmenit dannie studenta");
+        puts("8. Udalit spisok");
+        puts("9. Vihod iz progi");
+        puts(" Vash vibor: ");
+        scanf("%d",&n);
+        switch(n)
+    {
+        case 1: {vvod(f) ;break;}
+        case 2: {prosmotr(f); break;}
+        case 3: {otstauchie(f); break;}
+        case 4: {srednii_ball(f); break;}
+        case 5: {function_sort(f); break;}
+        case 6: {function_delete(f); break;}
+        case 7: {function_izmenenie(f);break;}
+        case 8:remove("baz.txt");break;
+        case 9: {exit(1);}
+    }
+}
+}
+
+Заголовочный файл и структура в нем:
+#ifndef HEADERH_H_INCLUDED
+#define HEADERH_H_INCLUDED
+
+void vvod(FILE *f);
+
+void prosmotr(FILE *f);
+
+void otstauchie(FILE *f);
+
+void srednii_ball(FILE *f);
+
+int function_sort(FILE *f);
+
+int function_delete(FILE *f);
+
+int function_izmenenie(FILE *f);
+
+static struct cd
+{
+    char index;
+    char name[10];
+    int ekz1,ekz2,zach1,zach2,zach3,zach4,zach5;
+} sessiia[256];
+
+
+#endif // HEADERH_H_INCLUDED
+
+Модуль 1(функция ввода данных):
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include "HEADERH.h"
+
+void vvod(FILE *f)
+{
+    int i=0;
+    char k;
+    if((f=fopen("baz.txt","w"))==NULL)
+    {
+        puts("Nevozmozno otkrit fail");
+        exit(1);
+    }
+    k='y';
+    puts("Input svedeniia o studente\n");
+while(k!='n')
+{
+    printf("Input index: ");
+    scanf("%c",&sessiia[i].index);
+    scanf("%c",&sessiia[i].index);
+    printf("Input second name: ");
+    scanf("%s",sessiia[i].name);
+    while((sessiia[i].ekz1<2)||(sessiia[i].ekz1>5)) {
+    printf("Input ekzamen 1: ");
+    scanf("%d",&sessiia[i].ekz1);
+    }
+    while((sessiia[i].ekz2<2)||(sessiia[i].ekz2>5)) {
+    printf("Input ekzamen 2: ");
+    scanf("%d",&sessiia[i].ekz2);
+    }
+    while((sessiia[i].zach1<2)||(sessiia[i].zach1>5)){
+    printf("Input zachet 1: ");
+    scanf("%d",&sessiia[i].zach1);
+    }
+    while((sessiia[i].zach2<2)||(sessiia[i].zach2>5)){
+    printf("Input zachet 2: ");
+    scanf("%d",&sessiia[i].zach2);
+    }
+    while((sessiia[i].zach3<2)||(sessiia[i].zach3>5)){
+    printf("Input zachet 3: ");
+    scanf("%d",&sessiia[i].zach3);
+    }
+    while((sessiia[i].zach4<2)||(sessiia[i].zach4>5)){
+    printf("Input zachet 4: ");
+    scanf("%d",&sessiia[i].zach4);
+    }
+    while((sessiia[i].zach5<2)||(sessiia[i].zach5>5)){
+    printf("Input zachet 5: ");
+    scanf("%d",&sessiia[i].zach5); }
+    fwrite(&sessiia,sizeof(sessiia),1,f);
+    puts("Prodolzit rabotu?[y/n]");
+    i++;
+    k=getche();
+}
+fclose(f);
+}
+
+Модуль 2(функция вывода данных на экран):
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include "HEADERH.h"
+
+
+void prosmotr(FILE *f)
+{
+    int i=0;
+    int m=0;
+    if((f=fopen("baz.txt","r"))==NULL)
+    {
+        puts("Nevozmozno otkrit fail");
+        exit(1);
+    }
+    puts("Gruppa   ||Familiia   ||Ekzameni||Zacheti");
+    while(fread(&sessiia,sizeof(sessiia),1,f)==1) {
+        m=i+1;
+        //std::cout<<m<<" ";
+        printf("%c      ||%10s ||%2d%2d    ||%d %d %d %d %d\n",sessiia[i].index,sessiia[i].name,sessiia[i].ekz1,sessiia[i].ekz2,sessiia[i].zach1,sessiia[i].zach2,sessiia[i].zach3,sessiia[i].zach4,sessiia[i].zach5);
+        i++; }
+        fclose(f);
+}//prosmotr
+
+Функция 3(Вывод отстающих студентов):
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include "HEADERH.h"
+
+void otstauchie(FILE *f)
+{
+    int i=0,j=0;
+    if((f=fopen("baz.txt","r"))==NULL)
+    {
+        puts("Nevozmozno otkrit fail");
+        exit(1);
+    }
+    puts("Otstauchie studenti:");
+    puts("Gruppa ||Familiia   ||Col-vo dolgov");
+    while(fread(&sessiia,sizeof(sessiia),1,f)==1) {
+        if (sessiia[i].ekz1==2){
+            j++;
+        }
+        if (sessiia[i].ekz2==2){
+            j++;
+        }
+        if (sessiia[i].zach1==2){
+            j++;
+        }
+        if (sessiia[i].zach2==2){
+            j++;
+        }
+        if (sessiia[i].zach3==2){
+            j++;
+        }
+        if (sessiia[i].zach4==2){
+            j++;
+        }
+        if (sessiia[i].zach5==2){
+            j++;
+        }
+        if (j!=0) {
+        printf("%c      ||%10s ||%2d\n",sessiia[i].index,sessiia[i].name,j); }
+        j=0;
+        i++; }
+        fclose(f);
+}
+Функция 4(Функция подсчета среднего балла группы Х):
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include "HEADERH.h"
+
+void srednii_ball(FILE *f)
+{
+    int i=0;
+    int j=0;
+    int z=7;
+    char index;
+    double st_b,gr_b=0;
+    if((f=fopen("baz.txt","r"))==NULL)
+    {
+        puts("Nevozmozno otkrit fail");
+        exit(1);
+    }
+    printf("Input index gruppi: ");
+    gets(&index);
+    gets(&index);
+    puts("Gruppa ||Familiia   ||Srednii ball");
+    while(fread(&sessiia,sizeof(sessiia),1,f)==1) {
+        if (index==sessiia[i].index) {
+            st_b=(sessiia[i].ekz1+sessiia[i].ekz2+sessiia[i].zach1+sessiia[i].zach2+sessiia[i].zach3+sessiia[i].zach4+sessiia[i].zach5);
+            st_b=st_b/z;
+            gr_b=gr_b+st_b;
+            printf("%c      ||%10s ||%f\n",sessiia[i].index,sessiia[i].name,st_b);
+            j++;
+        }
+        i++;
+        st_b=0;
+    }
+    gr_b=(gr_b/j);
+    printf("Srednii ball gruppi: %f\n",gr_b);
+    fclose(f);
+}
+
+Функция 5(Сортировка по алфавиту):
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include <ctype.h>
+#include <string.h>
+#include "HEADERH.h"
+
+int function_sort(FILE *f)
+{
+    cd p;
+    int col=0;
+    if((f=fopen("baz.txt","r+"))==NULL) // открытие файла
+    {
+        puts("Nevozmozno otkrit fail");
+        exit(1);
+       // std::cout<<"Proverka"<<std::endl;
+    }
+    while(fread(&sessiia,sizeof(sessiia),1,f)==1) //считывание структуры из файла
+    {
+        col++;
+    }
+    // std::cout<<col<<std::endl;
+    fflush(stdin);
+   // std::cout<<"Strannaia komanda"<<std::endl;
+    for(int j=0; j<col; j++)
+    {
+       // std::cout<<"j: "<<j<<std::endl;
+        for(int k=0; k<col; k++)
+        {
+           // std::cout<<"k: "<<k<<std::endl;
+            if(strcmp(sessiia[j].name,sessiia[k].name)<0)
+            {
+               // std::cout<<"cikl"<<std::endl;
+                p=sessiia[j];
+                sessiia[j]=sessiia[k];
+                sessiia[k]=p;
+            }
+        }
+    }
+    fclose(f);
+   // std::cout<<"Fail zakrit"<<std::endl;
+    if((f=fopen("baz.txt","w"))==NULL)//создание файла
+    {
+        puts("Nevozmozno otkrit fail");
+        exit(1);
+    }
+    for(int i=0;i<col;i++) //запись в файл
+    {
+        fwrite(&sessiia,sizeof(sessiia),1,f);
+    }
+    fclose(f);
+   // std::cout<<"Fail zakrit 2"<<std::endl;
+}
+
+Функция 6(Удаление конкретного студента):
+#include <stdio.h>
+#include <conio.h>
+#include <stdio.h>
+#include <iostream>
+#include <windows.h>
+#include <ctype.h>
+#include <string.h>
+#include "HEADERH.h"
+
+using namespace std;
+
+int function_delete(FILE *f)
+{
+    int chislo=0;
+    int nomer,j=0;
+    char name[256];
+    if((f=fopen("baz.txt","r+"))==NULL) //открытие файла
+    {
+        puts("Inpossible to open file");
+        exit(1);
+    }
+    while(fread(&sessiia,sizeof(sessiia),1,f)==1)
+    {
+        chislo++;
+    }
+    puts("Kakogo po nomeru rabotnika udalit?");
+    scanf("%d",&nomer);
+    nomer--;
+    for(int i=nomer;i<chislo;i++)
+    {
+        sessiia[i].index=sessiia[i+1].index;
+        while(sessiia[i+1].name[j]!='\0')
+        {
+            name[j]=sessiia[i+1].name[j];
+            j++;}
+        name[j]='\0';
+        j=0;
+        while(name[j]!='\0')  {
+            sessiia[i].name[j]=name[j];
+            j++;}
+        j=0;
+        sessiia[i].ekz1=sessiia[i+1].ekz1;
+        sessiia[i].ekz2=sessiia[i+1].ekz2;
+        sessiia[i].zach1=sessiia[i+1].zach1;
+        sessiia[i].zach2=sessiia[i+1].zach2;
+        sessiia[i].zach3=sessiia[i+1].zach3;
+        sessiia[i].zach4=sessiia[i+1].zach4;
+        sessiia[i].zach5=sessiia[i+1].zach5;
+    }
+    fclose(f);
+    if((f=fopen("baz.txt","w"))==NULL){
+        puts("Inpossible to create file");
+        exit(1); }
+    for(int i=0;i<chislo-1;i++)  {
+        fwrite(&sessiia,sizeof(sessiia),1,f); }
+    fclose(f);
+}
+
+Функция 7(Изменение данных о студенте):
+#include <stdio.h>
+#include <conio.h>
+#include <stdio.h>
+#include <iostream>
+#include <cstddef>
+#include <windows.h>
+#include "HEADERH.h"
+using namespace std;
+int function_izmenenie(FILE *f){
+    int nomer,otvet,n=0,chislo=0;
+    char answer;
+    if((f=fopen("baz.txt","r+"))==NULL) //открытие файла  {
+        puts("Inpossible to open file");
+        exit(1); }
+   while(fread(&sessiia,sizeof(sessiia),1,f)==1){//считывание структуры из файла
+        chislo++;  }
+    rewind(f);//возврат в начало файла
+    while(n!=1)   {
+        while((nomer>chislo)||(nomer<1)) {
+            prosmotr(f);
+            puts("Dannie kakogo po nomeru studenta izmenit?\n");
+            scanf("%d",&nomer);    }
+        nomer--;
+        puts("Kakie dannite izmenit?\n");
+        puts("1. Index                                           ");
+        puts("2. Name                                            ");
+        puts("3. Ekzamen 1                                       ");
+        puts("4. Ekzamen 2                                       ");
+        puts("5. Zachet 1                                        ");
+        puts("6. Zachet 2                                        ");
+        puts("7. Zachet 3                                        ");
+        puts("8. Zachet 4                                        ");
+        puts("9. Zachet 5                                        ");
+        puts("10. Nichego                                        ");
+        puts("---------------------------------------------------\n");
+        scanf("%d",&otvet);
+        fflush(stdin);
+        switch(otvet) {//Ввод новых данных на выбор
+            case 1:
+                printf("Vvedite Last Name: ");
+                scanf("%c",&sessiia[nomer].index);
+                break;
+            case 2:
+                printf("Vvedite Nazvanite cheha: ");
+                gets(sessiia[nomer].name);
+                break;
+            case 3:
+                printf("Input ekzamen 1: ");
+                scanf("%d",&sessiia[nomer].ekz1);
+                break;
+            case 4:
+                printf("Input ekzamen 2: ");
+                scanf("%d",&sessiia[nomer].ekz2);
+                break;
+            case 5:
+                printf("Input zachet 1: ");
+                scanf("%d",&sessiia[nomer].zach1);
+                break;
+            case 6:
+                printf("Input zachet 2: ");
+                scanf("%d",&sessiia[nomer].zach2);
+                break;
+            case 7:
+                printf("Input zachet 3: ");
+                scanf("%d",&sessiia[nomer].zach3);
+                break;
+            case 8:
+                printf("Input zachet 4: ");
+                scanf("%d",&sessiia[nomer].zach4);
+                break;
+            case 9:
+                printf("Input zachet 5: ");
+                scanf("%d",&sessiia[nomer].zach5);
+                break;
+            case 10:n=1;return 0;
+        }
+        fclose(f);
+        if((f=fopen("baz.txt","w"))==NULL) {//создание файла
+            puts("Inpossible to create file");
+            exit(1); }
+        for(int i=0;i<chislo;i++) {//Ввод данных в файл
+            fwrite(&sessiia,sizeof(sessiia),1,f); }
+        fclose(f);  }
+}
+8 пункт меню* - не является функцией, просто очищение файла.
+9 пункт меню* - просто выход из программы.
+
+
+

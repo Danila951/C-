@@ -1,0 +1,259 @@
+Класс "студент" на С++ 
+Ну и прилагаю весь код:
+#include <iostream>
+#include <stdio.h>
+#include <cstring>
+
+using namespace std;
+
+class Students {
+     friend void checkStep(Students const);
+     friend void sortirovka(Students[],int);
+		char *fIO;
+        int data, lb17, lb18, lb19;
+        bool stependia;
+
+	public:
+	    void vivod_polei() {
+	        char *str1;
+	    if (stependia==1) {
+                str1="true";
+            } else {str1="false";}
+            printf("%15s %5d %2d %2d %2d %5s \n",fIO,data,lb17,lb18,lb19,str1);
+	    }
+        void izmenenie(char *a, int d, int x, int y, int z, bool s) {
+	        strcpy(fIO, a);
+	        data=d;
+	        lb17=x;
+	        lb18=y;
+	        lb19=z;
+	        stependia=s;
+	    }
+	    void ball() {
+	    float sredn=(lb17+lb18+lb19)/3;
+	    if (sredn<3.7) {
+            stependia=false;
+	    } else {stependia=true;}
+	    }
+	    void udalenie() {
+            strcpy(fIO," ");
+	        data=0000;
+	        lb17=0;
+	        lb18=0;
+	        lb19=0;
+	        stependia=false;
+	    }
+        static int colichestvo;
+        static void IncCount() {colichestvo++; }
+        static void DecCount() {colichestvo--; }
+		Students(char *fio="              ", int da=0000, int l17=0, int l18=0, int l19=0, bool ste=false) { //конструктор
+			 fIO=new char[strlen(fio)+1];strcpy(fIO,fio);
+			 data = da; lb17=l17; lb18=l18; lb19=l19; stependia=ste;
+
+			 }
+
+        ~Students() {delete[] fIO; };
+        Students(const Students &s) {
+            fIO = new char[strlen(s.fIO)+1];
+            strcpy(fIO, s.fIO);
+            data=s.data;
+            lb17=s.lb17;
+            lb18=s.lb18;
+            lb19=s.lb19;
+            stependia=s.stependia;
+            }
+        Students& operator =(const Students &s) {
+            //if (this == &s) return *this;
+            delete[] fIO;
+            fIO = new char[strlen(s.fIO+1)];
+            strcpy(fIO, s.fIO);
+            data=s.data;
+            lb17=s.lb17;
+            lb18=s.lb18;
+            lb19=s.lb19;
+            stependia=s.stependia;
+            return *this;
+            }
+        bool operator>(const Students &l) {
+            if (this == &l) {return false;}
+        char *str5, *str6;
+        unsigned long size_1 = strlen(l.fIO);
+        unsigned long size_2 = strlen(this->fIO);
+        str5 = new char[size_1];
+        str6 = new char[size_2];
+        strcpy(str5, l.fIO);
+        strcpy(str6, this->fIO);
+        bool out = false;
+        for (int i = 0; i < size_1 < size_2 ? size_1 : size_2; i++) {
+            if (str5[i] > str6[i]) {
+                out = true;
+                break;
+            } else if (str6[i] > str5[i]) {
+                out = false;
+                break;
+            }
+        }
+        return out;
+        }
+
+
+		char *GetFio() {return fIO;}
+		int GetData() {return data;}
+		int GetLb17() {return lb17;}
+		int GetLb18() {return lb18;}
+		int GetLb19() {return lb19;}
+		bool GetStependia() {return stependia;}
+		void Draw(char* f, int d, int x, int y, int z, bool s);
+
+};
+
+int Students::colichestvo=0;
+
+    void checkStep(Students const studentd) {
+        if (studentd.stependia==true) {
+             printf("%15s %5d %2d %2d %2d true \n",studentd.fIO,studentd.data,studentd.lb17,studentd.lb18,studentd.lb19);
+        }
+    }
+    void sortirovka(Students studentn[], int razmer) {
+        for (int i = 0; i < (razmer - 2); i++) {
+            for (int l = 0; l < (razmer- i - 2); l++) {
+                if ((studentn[l+1] > studentn[l])==true) {
+                    studentn[razmer] = studentn[l];
+                    studentn[l] = studentn[l+1];
+                    studentn[l+1] = studentn[razmer];
+                } else {continue;}
+            }
+        }
+	}
+
+
+int main()
+{
+    Students student[25];
+    char *str2, str[15],str3[15],str4[15];
+    int j=0;
+    int w,e,r,t,y,u,o;
+    int a,s,d,f,g;
+    int m=0,q;
+    while(m!=8)
+    {
+        cout<<"Menu "<<endl;
+        cout<<"1 - dobavit uchenika "<<endl;
+        cout<<"2 - udalit echenika "<<endl;
+        cout<<"3 - proverit stependiu po ocenkam "<<endl;
+        cout<<"4 - vivesti informatiu o studente "<<endl;
+        cout<<"5 - vivesti studentov, u kotorih est stependiia "<<endl;
+        cout<<"6 - sortirovat studentov po alfavitu "<<endl;
+        cout<<"7 - vivesti vseh studentov na ekran "<<endl;
+        cout<<"8 - zavershit rabotu programmi i vivesti vseh studentov na ekran "<<endl;
+        while(m!=8&&m!=7&&m!=6&&m!=5&&m!=4&&m!=3&&m!=2&&m!=1) {
+        cout<<"Viberete deistvie: "<<endl;
+        scanf("%d",&m);
+        }
+        switch(m)
+        {
+            case 1:
+            {
+
+                cout<<" Vvedite familiu studenta: "; scanf("%s",str);
+                while(w<1950||w>2019) {
+                cout<<" Vvedite god rozdeniia studenta: "; scanf("%d",&w);
+                }
+                while(e!=5&&e!=4&&e!=3&&e!=2) {
+                cout<<" Vvedite ocenku za laboratornuu rabotu 17: "; scanf("%d",&e);
+                }
+                while(r!=5&&r!=4&&r!=3&&r!=2) {
+                cout<<" Vvedite ocenku za laboratornuu rabotu 18: "; scanf("%d",&r);
+                }
+                while(t!=5&&t!=4&&t!=3&&t!=2) {
+                cout<<" Vvedite ocenku za laboratornuu rabotu 19: "; scanf("%d",&t);
+                }
+                while(y!=0&&y!=1) {
+                cout<<" Vvedite nalichie stependii: "; scanf("%d",&y);
+                }
+                student[j].izmenenie(str,w,e,r,t,y);
+                Students::IncCount();
+                student[j].vivod_polei();
+                j++;
+                w=e=r=t=m=0;
+                y=2;
+                cout<<"Vipolneno"<<endl;
+            } break;
+            case 2:
+            {
+                for (int i=0; i<j; i++) {
+                    student[i].vivod_polei();
+                }
+                while(u>=j||u<=0) {
+                cout<<" Vvedite nomer studenta, cotorogo hotite udalit: "; scanf("%d",&u);
+                }
+                student[u].udalenie();
+                for(u;u<j;u++) {  //сдвиг вверх по массиву, чтобы не было пустых мест
+                    student[u]=student[u+1];
+                }
+                Students::DecCount();
+                u=-1;
+                j--;
+                student[j].udalenie();
+                m=0;
+                cout<<"Vipolneno"<<endl;
+            } break;
+            case 3:
+            {
+                for (int i=0; i<j; i++) {
+                    student[i].vivod_polei();
+                }
+                cout<<" Vvedite nomer studenta, cotorogo hotite proverit: "; scanf("%d",&u);
+                student[u].ball();
+                student[u].vivod_polei();
+                m=0;
+                cout<<"Vipolneno"<<endl;
+            } break;
+            case 4:
+            {
+
+                for (int i=0; i<j; i++) {
+                        printf("%d %15s \n",i,student[i].GetFio());
+                }
+                cout<<" Vibirite studenta, o cotorom hotite informatiu: "; scanf("%d",&o);
+                student[o].vivod_polei();
+                m=0;
+                cout<<"Vipolneno"<<endl;
+            } break;
+            case 5:
+            {
+                for (int i=0; i<j; i++) {
+                    checkStep(student[i]);
+                }
+                m=0;
+                cout<<"Vipolneno"<<endl;
+            } break;
+            case 6:
+            {
+                int razmer=j+1;
+                sortirovka(student,razmer);
+                m=0;
+                cout<<"Vipolneno"<<endl;
+            } break;
+            case 7:
+            {
+                for (int i=0; i<student[1].colichestvo; i++) {
+                    if (student[i].GetStependia()==1) {
+                        str2="true";
+                    } else {str2="false";}
+                    printf("%15s %5d %2d %2d %2d %5s \n",student[i].GetFio(),student[i].GetData(),student[i].GetLb17(),student[i].GetLb18(),student[i].GetLb19(),str2);
+                }
+                m=0;
+            } break;
+
+        }
+    }
+    for (int i=0; i<student[1].colichestvo; i++) {
+        if (student[i].GetStependia()==1) {
+            str2="true";
+        } else {str2="false";}
+        printf("%15s %5d %2d %2d %2d %5s \n",student[i].GetFio(),student[i].GetData(),student[i].GetLb17(),student[i].GetLb18(),student[i].GetLb19(),str2);
+    }
+    return 0;
+}
+

@@ -1,0 +1,59 @@
+2.	Составьте программу (из одного модуля), в которой один и тот же идентификатор встречается 9 раз (метод вложенных блоков не принимается).
+#include <iostream>
+
+using namespace std;
+void func() {
+int identificator=2; // 2
+}
+namespace identificator // 5 на эти названия компилятор вообще никак не реагирует
+{
+    int identificator(int a, int b) // 3
+    {
+        return a + b;
+    }
+}
+namespace hihihi
+{
+    int shtoto(int a, int b)
+    {
+        float identificator=4; // 4
+        return a + b-identificator;
+    }
+}
+class Monster {
+		int identificator, ammo; // 6
+	public:
+		Monster(int he=100, int am=10) {
+			identificator = he; ammo = am;}
+		int GetHealth() {return identificator;}
+		int GetAmmo() {return ammo;}
+		void Draw(int x, int y);
+};
+namespace hihihi
+{
+    class identificator { // 8
+            int hehehe, ammo; // 6
+        public:
+            identificator(int he=100, int am=10) {
+                hehehe = he; ammo = am;}
+            int GetHealth() {return hehehe;}
+            int GetAmmo() {return ammo;}
+            void Draw(int x, int y);
+    };
+}
+int funct() {
+    FILE *identificator; // 9
+    identificator=fopen("s.txt", "wb");
+    fclose(identificator);
+    }
+int main()
+{
+    int identificator=1; // 1
+    int a=0;
+    for (int identificator=7;identificator<9;identificator++) { // 7
+        a++;
+         cout<<a<<identificator<<endl;
+    }
+    cout<<a<<identificator<<endl;
+    funct();
+}

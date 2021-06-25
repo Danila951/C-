@@ -1,0 +1,52 @@
+Головачев Д.А. Y2231 Лабораторная работа номер 17.
+
+ 
+  
+Задание 4. (Задание 3 + сортировка)
+Код модуля сортировки:
+#include "header.h"
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+void sort(Node* const pbeg, Node* const pend)
+{
+    int N=1;
+    Node *p = pbeg;
+    while(p!=pend) {
+        p=p->next;
+        N+=1;
+    }
+    cout << endl;
+    cout<<N<<endl;
+    cout << endl;
+    Node *p1 = pbeg;
+    Node *p2 = pbeg;
+    int temp;
+    for (int i = 0; i <N; i++)
+    {
+        for (int j = i; j < N; j++)
+        {
+
+            if ((p1->d) >= (p2->d))
+            {
+                temp = p1->d;
+                p1->d = p2->d;
+                p2->d = temp;
+
+            }
+            p2 = p2-> next;
+        }
+        p1 = p1->next;
+        p2 = p1;
+    }
+    delete p2;
+    p1 = pbeg;
+    for (int i = 0; i < N; i++) {
+        cout << (*p1).d << endl;
+        p1 = p1->next;
+    }
+    delete p1;
+}
+ 

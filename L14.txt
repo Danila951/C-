@@ -1,0 +1,55 @@
+Задание 1: Для встречающихся в заданном тексте пар рядом расположенных символов указать, сколько раз встречается каждое из таких двухбуквенных сочетаний.
+Листинг:
+#include<stdio.h>
+#include<string.h>
+#include <conio.h>
+
+int main(){
+        FILE *fi;
+fi=fopen("in.txt","rt");
+    char str[25], *tmp;
+    fgets(str,17,fi);
+    int i, j, k=0, l=strlen(str);
+    for(i=0; i<l-1; i++){
+        tmp=strchr(str, str[i]);
+        if(tmp[1]==str[i+1]&&tmp<&str[i]) continue;
+        for(j=0; j<l-1; j++){
+            if(str[i]==str[j]&&str[i+1]==str[j+1]) k++;
+        }
+        printf("para %c%c vstrechaetsya %d raz\n", str[i], str[i+1], k);
+        k=0;
+    }
+    return 0;
+}
+
+ 
+ 
+ 
+
+Задание 2: Удалить из текста символы «пробел» и подсчитать длину сформированного текста.
+Листинг: 
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main()
+{
+    FILE *fi,*fo;
+fi=fopen("in.txt","rt");
+fo=fopen("out.txt","wt");
+char c;
+int kolichestvo=0;
+while((c=fgetc(fi))!=EOF)
+{
+    if(c!=32) {
+      fputc(c,fo);
+      kolichestvo++;
+    }
+}
+fclose(fi);
+fclose(fo);
+cout<<kolichestvo;
+}
+ 
+ 
+ 
